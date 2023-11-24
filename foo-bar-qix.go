@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"strconv"
+	"strings"
 )
 
 type FooBarQix struct{}
@@ -22,15 +23,15 @@ func (fbq FooBarQix) compute(input string) (string, error) {
 		return "", errors.New(fmt.Sprintf("invalid input: %s, expected integer", input))
 	}
 
-	trailing := getTrailing(input)
-
 	multipleOf3 := value%3 == 0
 	multipleOf5 := value%5 == 0
 	multipleOf7 := value%7 == 0
 
 	if !multipleOf3 && !multipleOf5 && !multipleOf7 {
-		return input + trailing, nil
+		return strings.Replace(input, "0", "*", -1) + getTrailing(input, ""), nil
 	}
+
+	trailing := getTrailing(input, "*")
 
 	output := ""
 	if multipleOf3 {
@@ -48,10 +49,14 @@ func (fbq FooBarQix) compute(input string) (string, error) {
 	return output + trailing, err
 }
 
-func getTrailing(input string) string {
+func getTrailing(input string, zeroReplacement string) string {
 	trailing := ""
 	for _, c := range input {
-		trailing += charMapping[c]
+		if c == '0' {
+			trailing += zeroReplacement
+		} else {
+			trailing += charMapping[c]
+		}
 	}
 	return trailing
 }
