@@ -10,13 +10,13 @@ var fbq = FooBarQix{}
 func TestFooBarQix(t *testing.T) {
 	parameters := []struct{ input, expected string }{
 		{"1", "1"},
-		{"3", "Foo"}, {"6", "Foo"}, {"9", "Foo"},
-		{"5", "Bar"}, {"10", "Bar"}, {"20", "Bar"},
-		{"7", "Qix"}, {"14", "Qix"}, {"28", "Qix"},
-		{"15", "FooBar"}, {"30", "FooBar"},
+		{"3", "FooFoo"}, {"6", "Foo"}, {"9", "Foo"},
+		{"5", "BarBar"}, {"10", "Bar"}, {"20", "Bar"},
+		{"7", "QixQix"}, {"14", "Qix"}, {"28", "Qix"},
+		{"15", "FooBarBar"}, {"30", "FooBarFoo"},
 		{"21", "FooQix"}, {"42", "FooQix"},
-		{"35", "BarQix"}, {"70", "BarQix"},
-		{"105", "FooBarQix"},
+		{"35", "BarQixFooBar"}, {"70", "BarQixQix"},
+		{"105", "FooBarQixBar"},
 	}
 
 	for _, p := range parameters {
