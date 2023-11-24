@@ -14,9 +14,21 @@ func (fbq FooBarQix) compute(input string) (string, error) {
 		return "", errors.New(fmt.Sprintf("invalid input: %s, expected integer", input))
 	}
 
-	if value%3 == 0 {
-		return "Foo", nil
+	multipleOf3 := value%3 == 0
+	multipleOf5 := value%5 == 0
+
+	if !multipleOf3 && !multipleOf5 {
+		return input, nil
 	}
 
-	return input, err
+	output := ""
+	if multipleOf3 {
+		output = output + "Foo"
+	}
+
+	if multipleOf5 {
+		output = output + "Bar"
+	}
+
+	return output, err
 }
