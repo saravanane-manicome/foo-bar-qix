@@ -1,83 +1,35 @@
 package foo_bar_qix
 
-import "testing"
+import (
+	"fmt"
+	"testing"
+)
 
 var fbq = FooBarQix{}
 
-func TestFoo(t *testing.T) {
-	expected := "Foo"
-
-	result, err := fbq.compute("6")
-	if err != nil {
-		t.Fatal(err)
+func TestFooBarQix(t *testing.T) {
+	parameters := []struct{ input, expected string }{
+		{"1", "1"},
+		{"3", "Foo"}, {"6", "Foo"}, {"9", "Foo"},
+		{"5", "Bar"}, {"10", "Bar"}, {"20", "Bar"},
+		{"7", "Qix"}, {"14", "Qix"}, {"28", "Qix"},
+		{"15", "FooBar"}, {"30", "FooBar"},
+		{"21", "FooQix"}, {"42", "FooQix"},
+		{"35", "BarQix"}, {"70", "BarQix"},
+		{"105", "FooBarQix"},
 	}
 
-	if result != expected {
-		t.Fatalf("expected %s, got %s", expected, result)
-	}
-}
+	for _, p := range parameters {
+		t.Run(fmt.Sprintf("%s => %s", p.input, p.expected), func(t *testing.T) {
+			actual, err := fbq.compute(p.input)
+			if err != nil {
+				t.Fatal(err)
+			}
 
-func TestNotFoo(t *testing.T) {
-	expected := "1"
-
-	result, err := fbq.compute("1")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if result != expected {
-		t.Fatalf("expected %s, got %s", expected, result)
-	}
-}
-
-func TestBar(t *testing.T) {
-	expected := "Bar"
-
-	result, err := fbq.compute("10")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if result != expected {
-		t.Fatalf("expected %s, got %s", expected, result)
-	}
-}
-
-func TestNotBar(t *testing.T) {
-	expected := "1"
-
-	result, err := fbq.compute("1")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if result != expected {
-		t.Fatalf("expected %s, got %s", expected, result)
-	}
-}
-
-func TestQix(t *testing.T) {
-	expected := "Qix"
-
-	result, err := fbq.compute("14")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if result != expected {
-		t.Fatalf("expected %s, got %s", expected, result)
-	}
-}
-
-func TestNotQix(t *testing.T) {
-	expected := "1"
-
-	result, err := fbq.compute("1")
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if result != expected {
-		t.Fatalf("expected %s, got %s", expected, result)
+			if actual != p.expected {
+				t.Logf("given: %s, expected: %s, got: %s", p.input, p.expected, actual)
+				t.Fail()
+			}
+		})
 	}
 }
