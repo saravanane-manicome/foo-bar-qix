@@ -16,8 +16,9 @@ func (fbq FooBarQix) compute(input string) (string, error) {
 
 	multipleOf3 := value%3 == 0
 	multipleOf5 := value%5 == 0
+	multipleOf7 := value%7 == 0
 
-	if !multipleOf3 && !multipleOf5 {
+	if !multipleOf3 && !multipleOf5 && !multipleOf7 {
 		return input, nil
 	}
 
@@ -28,6 +29,10 @@ func (fbq FooBarQix) compute(input string) (string, error) {
 
 	if multipleOf5 {
 		output = output + "Bar"
+	}
+
+	if multipleOf7 {
+		output = output + "Qix"
 	}
 
 	return output, err

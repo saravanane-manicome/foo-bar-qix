@@ -55,3 +55,29 @@ func TestNotBar(t *testing.T) {
 		t.Fatalf("expected %s, got %s", expected, result)
 	}
 }
+
+func TestQix(t *testing.T) {
+	expected := "Qix"
+
+	result, err := fbq.compute("14")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if result != expected {
+		t.Fatalf("expected %s, got %s", expected, result)
+	}
+}
+
+func TestNotQix(t *testing.T) {
+	expected := "1"
+
+	result, err := fbq.compute("1")
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if result != expected {
+		t.Fatalf("expected %s, got %s", expected, result)
+	}
+}
