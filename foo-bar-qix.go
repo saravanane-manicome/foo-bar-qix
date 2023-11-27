@@ -23,40 +23,38 @@ func (fbq FooBarQix) compute(input string) (string, error) {
 		return "", errors.New(fmt.Sprintf("invalid input: %s, expected integer", input))
 	}
 
-	multipleOf3 := value%3 == 0
-	multipleOf5 := value%5 == 0
-	multipleOf7 := value%7 == 0
-
-	if !multipleOf3 && !multipleOf5 && !multipleOf7 {
-		return strings.Replace(input, "0", "*", -1) + getTrailing(input, ""), nil
-	}
-
-	trailing := getTrailing(input, "*")
+	getTrailingWithZeroAs := zeroReplacerForTrailingOf(input)
 
 	output := ""
-	if multipleOf3 {
+	if value%3 == 0 {
 		output = output + "Foo"
 	}
 
-	if multipleOf5 {
+	if value%5 == 0 {
 		output = output + "Bar"
 	}
 
-	if multipleOf7 {
+	if value%7 == 0 {
 		output = output + "Qix"
 	}
 
-	return output + trailing, err
+	if output == "" {
+		return strings.Replace(input, "0", "*", -1) + getTrailingWithZeroAs(""), nil
+	}
+
+	return output + getTrailingWithZeroAs("*"), err
 }
 
-func getTrailing(input string, zeroReplacement string) string {
-	trailing := ""
-	for _, c := range input {
-		if c == '0' {
-			trailing += zeroReplacement
-		} else {
-			trailing += charMapping[c]
+func zeroReplacerForTrailingOf(input string) func(string) string {
+	return func(zeroReplacement string) string {
+		trailing := ""
+		for _, c := range input {
+			if c == '0' {
+				trailing += zeroReplacement
+			} else {
+				trailing += charMapping[c]
+			}
 		}
+		return trailing
 	}
-	return trailing
 }
