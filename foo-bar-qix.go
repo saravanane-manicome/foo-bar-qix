@@ -59,17 +59,25 @@ func sortedDividers() []int64 {
 }
 
 func trailingWithZeroMappingForInput(input string) func(string) string {
-	trailing := ""
+	var labels []string
 	for _, c := range input {
 		if c == '0' {
-			trailing += "0"
+			labels = append(labels, "0")
 		} else {
 			charAsInt := int64(c - '0')
-			trailing += labelByDivider[charAsInt]
+			labels = append(labels, labelByDivider[charAsInt])
 		}
 	}
 
 	return func(zeroReplacement string) string {
-		return strings.ReplaceAll(trailing, "0", zeroReplacement)
+		output := ""
+		for _, label := range labels {
+			if label == "0" {
+				output += zeroReplacement
+			} else {
+				output += label
+			}
+		}
+		return output
 	}
 }
